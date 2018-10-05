@@ -7,6 +7,12 @@ class App extends Component {
   state = {
     projects: [],
     projectsError: null,
+    newPost: {
+      name: '',
+      description: '',
+      completed: false,
+    },
+    postError: null
   }
   componentDidMount() {
     axios
@@ -14,6 +20,22 @@ class App extends Component {
       .then(projects => this.setState({projects: projects.data}))
       .catch(err => this.setState({projectsError: err}));
   }
+  handleSubmit = e => {
+    axios.post(`http://localhost:9000/api/projects`, this.state.newPost)
+    .then(resp => window.location.reload())
+    .catch(err => this.setState({postError: err}));
+  }
+  
+  handleChange = e => {
+    console.log(e.target.type);
+    if(e.target.type === 'checkbox') {
+      this.setState({newPost: {...this.state.newPost, completed: e.target.checked}})
+    } else {
+      this.setState({newPost: {...this.state.newPost, [e.target.name]: e.target.value}});
+    }
+  }
+
+
   render() {
     return (
       <div className="App">
@@ -27,6 +49,12 @@ class App extends Component {
                 <p>Description: {project.description}</p>
                 <small>Status: {project.completed ? 'Done': 'In Progress'}</small>
                 <ActionList id={project.id} />
+                <div style={{display: 'flexbox', flexDirection: 'column'}}>
+                  <div><input onChange={this.handleChange} type="text" name="name" placeholder="Name" /></div>
+                  <div><input onChange={this.handleChange} type="text" name="description" placeholder="Description" /></div>
+                  <div><input onChange={this.handleChange} type="checkbox" name="completed" /><span>True/False</span></div>
+                  <div><button onClick={this.handleSubmit}>Submit</button></div>
+                </div>
               </div>
             )
           })
