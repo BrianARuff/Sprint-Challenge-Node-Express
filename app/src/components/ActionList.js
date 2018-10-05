@@ -8,8 +8,8 @@ class ActionList extends React.Component {
     projectWithActionsError: null,
     showForm: false,
     updatedProject: {
-      description: '',
-      name: '',
+      description: this.props.project.description,
+      name: this.props.project.name,
       completed: this.props.project.completed
     },
     updateError: null,
@@ -46,7 +46,7 @@ class ActionList extends React.Component {
         <div style={{display: 'flexbox', flexDirection: 'column'}}>
           <div><span>Action Name: </span><input onChange={this.handleOnChange} type="text" defaultValue={this.props.project.name} name="name" placeholder="Name" /></div>
           <div><span>Action Description: </span><textarea onChange={this.handleOnChange} type="text" defaultValue={this.props.project.description} name="description" placeholder="name" placeholder="Description"></textarea></div>
-          <div><button onClick={(e) => {this.handleUpdate(e, this.props.project.id)}}>Update!</button></div>
+          <div><button style={{background: 'yellow'}} onClick={(e) => {this.handleUpdate(e, this.props.project.id)}}>Update!</button></div>
         </div>
         : null
       }

@@ -68,7 +68,7 @@ class App extends Component {
                   <div><span>Project Name: </span><input onChange={this.handleChange} type="text" name="name" placeholder="Name" /></div>
                   <div><span>Project Description: </span><input onChange={this.handleChange} type="text" name="description" placeholder="Description" /></div>
                   <div><span>True/False</span> <input onChange={this.handleChange} type="checkbox" name="completed" /></div>
-                  <div><button onClick={this.handleSubmit}>Submit</button></div>
+                  <div><button style={{background: 'red', color: 'white', fontWeight: 'bold'}} onClick={this.handleSubmit}>Submit</button></div>
                 </div>
       </div>
     );
