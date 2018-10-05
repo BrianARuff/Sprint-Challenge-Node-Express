@@ -13,17 +13,26 @@ actionRouter.get("/", (req, res) => {
 actionRouter.post("/", (req, res) => {
   const { project_id, description, notes, completed } = req.body;
   const newAction = { project_id, description, notes, completed };
+  if (typeof description !== "string")
+    res.status(422).send("Description must be a string");
+  if (typeof completed !== "boolean")
+    res.status(422).send("Completed must be a boolean value");
   db.insert(newAction)
     .then(action => res.status(201).send(action))
     .catch(err => res.status(500).send(err));
 });
 
-actionRouter.put('/:id', (req, res) => {
-  const {id} = req.params;
-  const { project_id, description, notes, completed} = req.body;
-  const updatedAction = {project_id, description, notes, completed};
-  if(!project_id || !description || !notes || !completed) {
-    res.status(422).send({error: "Please enter a project id, description, note, and completed value"})
+actionRouter.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { project_id, description, notes, completed } = req.body;
+  const updatedAction = { project_id, description, notes, completed };
+  if (!project_id || !description || !notes || !completed) {
+    res
+      .status(422)
+      .send({
+        error:
+          "Please enter a project id, description, note, and completed value"
+      });
     return;
   }
   db.update(id, updatedAction)
@@ -31,11 +40,11 @@ actionRouter.put('/:id', (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-actionRouter.delete('/:id', (req, res) => {
-  const {id} = req.params;
+actionRouter.delete("/:id", (req, res) => {
+  const { id } = req.params;
   db.remove(id)
     .then(action => res.status(204).sendStatus(204))
     .catch(err => res.status(500).send(err));
-})
+});
 
 module.exports = actionRouter;

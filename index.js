@@ -16,8 +16,8 @@ const server = express();
 server.use(express.json(), cors(), morgan('dev'), helmet());
 
 // use project routes
-server.use('/projects', projectRouter);
-server.use('/actions', actionRouter);
+server.use('/api/projects', projectRouter);
+server.use('/api/actions', actionRouter);
 
 // listener
 server.listen(process.env.PORT, () => console.log(`\n=== API running on port ${process.env.PORT} ===\n`));
