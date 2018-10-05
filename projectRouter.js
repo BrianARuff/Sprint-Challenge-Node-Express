@@ -17,13 +17,6 @@ projectRouter.get("/:id", (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-projectRouter.get("/:id/actions", (req, res) => {
-  const { id } = req.params;
-  db.getProjectActions(id)
-    .then(project => res.status(200).send(project))
-    .catch(err => res.status(500).send(err));
-});
-
 projectRouter.post("/", (req, res) => {
   const { description, name, completed } = req.body;
 
@@ -113,7 +106,7 @@ projectRouter.delete("/:id", (req, res) => {
     return;
   }
   db.remove(id)
-    .then(deletedProject => res.status(204).sendStatus(204))
+    .then(deletedProject => res.status(200).send(deletedProject))
     .catch(err => res.status(500).send(err));
 });
 
