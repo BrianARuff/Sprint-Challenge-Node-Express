@@ -29,17 +29,34 @@ projectRouter.post("/", (req, res) => {
 
   const newProject = { description, name, completed };
 
-  if (name && name.trim().length < 128) {
-    res.status(422).send("Name must be at least 128 characters long");
+  if (!name) {
+    res.status.send("Missing name");
     return;
   }
 
-  if (description && typeof description !== "string") {
-    res.status(422).send("Description must be a string");
+  if (!description) {
+    res.status(422).send("Missing description");
+    return;
   }
 
-  if (completed && typeof completed !== "boolean") {
+  if (typeof completed !== "boolean") {
+    res.status(422).send("Completed must be a boolean value.");
+    return;
+  }
+
+  if (name.length >= 128 || typeof name !== "string") {
+    res.status(422).send("Name must not exceed 128 characters and must be a string");
+    return;
+  }
+
+  if (typeof description !== "string") {
+    res.status(422).send("Description must be a string");
+    return;
+  }
+
+  if (typeof completed !== "boolean") {
     res.status(422).send("Completed must be a boolean value");
+    return;
   }
 
   db.insert(newProject)
@@ -49,10 +66,25 @@ projectRouter.post("/", (req, res) => {
 
 projectRouter.put("/:id", (req, res) => {
   const { id } = req.params;
-  
+
   const { description, name, completed } = req.body;
 
   const updatedProject = { description, name, completed };
+
+  if (!name) {
+    res.status.send("Missing name");
+    return;
+  }
+
+  if (!description) {
+    res.status(422).send("Missing description");
+    return;
+  }
+
+  if (!completed) {
+    res.status(422).send("Missing completed");
+    return;
+  }
 
   if (name && name.trim().length < 128) {
     res.status(422).send("Name must be at least 128 characters long");
@@ -61,10 +93,12 @@ projectRouter.put("/:id", (req, res) => {
 
   if (description && typeof description !== "string") {
     res.status(422).send("Description must be a string");
+    return;
   }
 
   if (completed && typeof completed !== "boolean") {
     res.status(422).send("Completed must be a boolean value");
+    return;
   }
 
   db.update(id, updatedProject)
