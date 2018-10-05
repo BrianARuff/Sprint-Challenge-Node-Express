@@ -7,6 +7,7 @@ const helmet = require('helmet');
 
 // routes
 const projectRouter = require('./projectRouter');
+const actionRouter = require('./actionRouter');
 
 // init server
 const server = express();
@@ -16,6 +17,7 @@ server.use(express.json(), cors(), morgan('dev'), helmet());
 
 // use project routes
 server.use('/projects', projectRouter);
+server.use('/actions', actionRouter);
 
 // listener
 server.listen(process.env.PORT, () => console.log(`\n=== API running on port ${process.env.PORT} ===\n`));
