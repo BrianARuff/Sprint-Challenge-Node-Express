@@ -63,39 +63,13 @@ projectRouter.put("/:id", (req, res) => {
   const { description, name, completed } = req.body;
 
   const updatedProject = { description, name, completed };
-
-  if (!name) {
-    res.status.send("Missing name");
-    return;
-  }
-
-  if (!description) {
-    res.status(422).send("Missing description");
-    return;
-  }
-
-  if (!completed) {
-    res.status(422).send("Missing completed");
-    return;
-  }
-
-  if (name && name.trim().length < 128) {
-    res.status(422).send("Name must be at least 128 characters long");
-    return;
-  }
-
-  if (description && typeof description !== "string") {
-    res.status(422).send("Description must be a string");
-    return;
-  }
-
-  if (completed && typeof completed !== "boolean") {
-    res.status(422).send("Completed must be a boolean value");
-    return;
-  }
+  console.log(id, updatedProject);
 
   db.update(id, updatedProject)
-    .then(project => res.status(200).send(project))
+    .then(project => {
+      console.log(project);
+      res.status(200).send(project)
+    })
     .catch(err => res.status(500).send(err));
 });
 

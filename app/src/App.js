@@ -48,17 +48,18 @@ class App extends Component {
                 <h4>Project Name: {project.name}</h4>
                 <p>Description: {project.description}</p>
                 <small>Status: {project.completed ? 'Done': 'In Progress'}</small>
-                <ActionList id={project.id} />
-                <div style={{display: 'flexbox', flexDirection: 'column'}}>
-                  <div><input onChange={this.handleChange} type="text" name="name" placeholder="Name" /></div>
-                  <div><input onChange={this.handleChange} type="text" name="description" placeholder="Description" /></div>
-                  <div><input onChange={this.handleChange} type="checkbox" name="completed" /><span>True/False</span></div>
-                  <div><button onClick={this.handleSubmit}>Submit</button></div>
-                </div>
+                <ActionList project={project} id={project.id} />
               </div>
             )
           })
         }
+        <div style={{display: 'flexbox', flexDirection: 'column'}}>
+                  <h4>New Project</h4>
+                  <div><span>Project Name: </span><input onChange={this.handleChange} type="text" name="name" placeholder="Name" /></div>
+                  <div><span>Project Description: </span><input onChange={this.handleChange} type="text" name="description" placeholder="Description" /></div>
+                  <div><span>True/False</span> <input onChange={this.handleChange} type="checkbox" name="completed" /></div>
+                  <div><button onClick={this.handleSubmit}>Submit</button></div>
+                </div>
       </div>
     );
   }

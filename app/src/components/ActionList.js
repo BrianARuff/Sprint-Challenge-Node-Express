@@ -6,6 +6,13 @@ class ActionList extends React.Component {
   state = {
     projectWithActions: [],
     projectWithActionsError: null,
+    showForm: false,
+    updatedProject: {
+      description: '',
+      name: '',
+      completed: this.props.project.completed
+    },
+    updateError: null,
   }
   componentDidMount() {
     axios
@@ -13,11 +20,35 @@ class ActionList extends React.Component {
       .then(actions => this.setState({projectWithActions: actions.data.actions}))
       .catch(err => this.setState({projectWithActionsError: err}));
   }
+  handleUpdate = (e, id) => {
+    axios
+      .put(`http://localhost:9000/api/projects/${this.props.id}`, this.state.updatedProject)
+      .then(post => {
+        this.setState({project_id: id})
+        window.location.reload();
+      })
+      .catch(err => this.setState({updateError: err}));
+      console.log(this.state.updatedProject);
+      window.location.reload();
+  }
+  handleOnChange = e => {
+    this.setState({updatedProject: {...this.state.updatedProject, [e.target.name]: e.target.value}})
+  }
   render() {
     return (
       <div>
       {
         this.state.projectWithActions.length > 1 ? <h3>Project Actions</h3> : null
+      }
+      <button onClick={() => this.setState({showForm: !this.state.showForm})}>Update Project</button>
+      {
+        this.state.showForm ?
+        <div style={{display: 'flexbox', flexDirection: 'column'}}>
+          <div><span>Action Name: </span><input onChange={this.handleOnChange} type="text" defaultValue={this.props.project.name} name="name" placeholder="Name" /></div>
+          <div><span>Action Description: </span><textarea onChange={this.handleOnChange} type="text" defaultValue={this.props.project.description} name="description" placeholder="name" placeholder="Description"></textarea></div>
+          <div><button onClick={(e) => {this.handleUpdate(e, this.props.project.id)}}>Update!</button></div>
+        </div>
+        : null
       }
       {
         this.state.projectWithActions.map(action => {
