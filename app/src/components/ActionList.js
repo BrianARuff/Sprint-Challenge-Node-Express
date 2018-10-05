@@ -22,7 +22,7 @@ class ActionList extends React.Component {
       {
         this.state.projectWithActions.map(action => {
           return (
-            <div>
+            <div style={{border: '1px solid black', margin: '20px', padding: '20px', boxShadow: '3px 3px 3px rgba(0,0,0,0.2)'}} >
               <h4>Action Title: {action.description}</h4>
               <p>Action Info: {action.notes}</p>
             </div>
