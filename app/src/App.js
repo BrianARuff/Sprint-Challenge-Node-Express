@@ -12,7 +12,8 @@ class App extends Component {
       description: '',
       completed: false,
     },
-    postError: null
+    postError: null,
+    deleteError: null,
   }
   componentDidMount() {
     axios
@@ -35,6 +36,14 @@ class App extends Component {
     }
   }
 
+  handleDelete = (id) => {
+    console.log(id);
+    axios
+      .delete(`http://localhost:9000/api/projects/${id}`)
+      .then(resp => window.location.reload())
+      .catch(err => this.setState({deleteError: err}));
+  }
+
 
   render() {
     return (
@@ -49,6 +58,7 @@ class App extends Component {
                 <p>Description: {project.description}</p>
                 <small>Status: {project.completed ? 'Done': 'In Progress'}</small>
                 <ActionList project={project} id={project.id} />
+                <button onClick={() => this.handleDelete(project.id)}>Delete this project</button>
               </div>
             )
           })

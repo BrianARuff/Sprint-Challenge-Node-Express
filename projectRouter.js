@@ -80,7 +80,7 @@ projectRouter.delete("/:id", (req, res) => {
     return;
   }
   db.remove(id)
-    .then(deletedProject => res.status(200).send(deletedProject))
+    .then(deletedProject => res.status(204).sendStatus(204))
     .catch(err => res.status(500).send(err));
 });
 
