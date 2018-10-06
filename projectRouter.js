@@ -23,7 +23,7 @@ projectRouter.post("/", (req, res) => {
   const newProject = { description, name, completed };
 
   if (!name) {
-    res.status.send("Missing name");
+    res.status(422).send("Missing name");
     return;
   }
 
