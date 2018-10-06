@@ -1,8 +1,13 @@
 const express = require("express");
 
+// require router
 const projectRouter = express.Router();
 
+// require db helper functions
 const db = require("./data/helpers/projectModel");
+
+// require errorHandling
+const validateName = require('./errorMiddleware');
 
 projectRouter.get("/", (req, res) => {
   db.get()
@@ -17,15 +22,10 @@ projectRouter.get("/:id", (req, res) => {
     .catch(err => res.status(500).send(err));
 });
 
-projectRouter.post("/", (req, res) => {
+projectRouter.post("/", validateName, (req, res) => {
   const { description, name, completed } = req.body;
 
   const newProject = { description, name, completed };
-
-  if (!name) {
-    res.status(422).send("Missing name");
-    return;
-  }
 
   if (!description) {
     res.status(422).send("Missing description");
