@@ -47,11 +47,6 @@ projectRouter.post("/", (req, res) => {
     return;
   }
 
-  if (typeof completed !== "boolean") {
-    res.status(422).send("Completed must be a boolean value");
-    return;
-  }
-
   db.insert(newProject)
     .then(postedProject => res.status(201).send(postedProject))
     .catch(err => res.status(500).send(err));
